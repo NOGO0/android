@@ -1,5 +1,6 @@
 package no.gu.no9.presentation.feature.recruitment
 
+import android.graphics.Paint.Style
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import no.gu.no9.presentation.AppNavigationItem
 import no.gu.no9.presentation.feature.component.Header
 import no.gu.no9.presentation.feature.component.TimePickerExample
 
@@ -205,5 +208,70 @@ fun FilterScreen(
             modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
         )
         TimePickerExample()
+
+        Text(
+            text = "성별",
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp,
+            modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
+        )
+        Row {
+            var check by remember { mutableStateOf(false) }
+            Box(
+                modifier = Modifier
+
+                    .padding(start = 20.dp)
+                    .fillMaxWidth(0.5f)
+                    .height(60.dp)
+                    .background(Color(0xFFF7F7F7))
+                    .border(1.dp, Color(0xFFDDDDDD), RoundedCornerShape(5.dp))
+                    .clip(RoundedCornerShape(8.dp))
+                    .align(Alignment.CenterVertically)
+                    .clickable { check = !check }
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center), text = "남",
+                    color = if (check) Color(0xFF3A63CD) else Color.Black
+                )
+            }
+            Box(
+
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .background(Color(0xFFF7F7F7))
+                    .border(
+                        width = if (check) 2.dp else 0.dp,
+                        color = if (check) Color(0xFF3A63CD) else Color(0x00FFFFFF),
+                        shape = RoundedCornerShape(100.dp),
+                    )
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { check = !check }
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center), text = "여",
+                    color = if (check) Color(0xFF3A63CD) else Color.Black,
+                )
+
+
+            }
+        }
+
+
+        Box(
+            modifier = modifier
+                .padding(top = 60.dp, start = 28.dp, end = 28.dp)
+                .fillMaxWidth()
+                .height(55.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFF3A63CD))
+                .clickable {
+                    navController.navigate(AppNavigationItem.Filter.route)
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(text = "적용하기", color = Color.White, fontWeight = FontWeight.Bold)
+        }
     }
 }

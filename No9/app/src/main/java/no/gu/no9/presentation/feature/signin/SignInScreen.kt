@@ -1,4 +1,4 @@
-package no.gu.no9.presentation.feature
+package no.gu.no9.presentation.feature.signin
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier

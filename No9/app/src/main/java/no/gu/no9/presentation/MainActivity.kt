@@ -12,7 +12,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import no.gu.no9.presentation.feature.RecruitmentRequestsScreen
-import no.gu.no9.presentation.feature.SignInScreen
+import no.gu.no9.presentation.feature.signin.SignInScreen
+import no.gu.no9.presentation.feature.signup.SignUpScreen1
+import no.gu.no9.presentation.feature.signup.SignUpScreen2
+import no.gu.no9.presentation.feature.signup.SignUpScreen3
 import no.gu.no9.presentation.theme.No9Theme
 
 class MainActivity : ComponentActivity() {
@@ -31,15 +34,21 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.SignIn.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.SignUp1.route) {
             composable(AppNavigationItem.SignIn.route) {
                 SignInScreen(navController = navController)
             }
-            composable(AppNavigationItem.SignUp.route) {
-
-            }
             composable(AppNavigationItem.RecruitmentRequests.route) {
                 RecruitmentRequestsScreen()
+            }
+            composable(AppNavigationItem.SignUp1.route) {
+                SignUpScreen1(navController = navController)
+            }
+            composable(AppNavigationItem.SignUp2.route) {
+                SignUpScreen2(navController = navController)
+            }
+            composable(AppNavigationItem.SignUp3.route) {
+                SignUpScreen3(navController = navController)
             }
         }
     }

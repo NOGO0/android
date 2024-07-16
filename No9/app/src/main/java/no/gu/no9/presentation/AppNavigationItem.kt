@@ -3,7 +3,11 @@ package no.gu.no9.presentation
 sealed class AppNavigationItem(val route: String) {
     data object SignIn : AppNavigationItem("signIn")
 
-    data object SignUp : AppNavigationItem("signUp")
+    data object SignUp1 : AppNavigationItem("signUp1")
+
+    data object SignUp2 : AppNavigationItem("signUp2")
+
+    data object SignUp3 : AppNavigationItem("signUp3")
 
     data object RecruitmentRequests : AppNavigationItem("recruitmentRequests")
 }

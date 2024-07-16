@@ -75,4 +75,6 @@ dependencies {
 
     api(libs.coil.compose)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.accompanist.flowlayout)
+
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import no.gu.no9.R
+import no.gu.no9.presentation.AppNavigationItem
 
 @Composable
 fun SignUpScreen3(
@@ -52,7 +53,7 @@ fun SignUpScreen3(
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
-                    vertical = 24.dp
+                    vertical = 13.dp
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
@@ -66,7 +67,7 @@ fun SignUpScreen3(
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
-                    vertical = 24.dp
+                    vertical = 13.dp
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
@@ -80,7 +81,7 @@ fun SignUpScreen3(
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
-                    vertical = 24.dp
+                    vertical = 13.dp
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
@@ -96,7 +97,9 @@ fun SignUpScreen3(
                 .height(60.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
-                .clickable { },
+                .clickable {
+                    navController.navigate(AppNavigationItem.SignIn.route)
+                },
             contentAlignment = Alignment.Center,
         ) {
             Text(text = "완료", color = Color.White)

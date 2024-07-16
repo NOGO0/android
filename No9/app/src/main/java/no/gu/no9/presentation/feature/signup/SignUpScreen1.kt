@@ -54,7 +54,7 @@ fun SignUpScreen1(
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
-                    vertical = 24.dp
+                    vertical = 13.dp
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
@@ -68,7 +68,7 @@ fun SignUpScreen1(
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
-                    vertical = 24.dp
+                    vertical = 13.dp
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
@@ -92,7 +92,7 @@ fun SignUpScreen1(
                 modifier = modifier
                     .padding(
                         horizontal = 28.dp,
-                        vertical = 24.dp
+                        vertical = 13.dp
                     )
                     .height(60.dp)
                     .fillMaxWidth(),

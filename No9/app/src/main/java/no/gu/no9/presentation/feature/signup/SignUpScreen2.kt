@@ -40,7 +40,7 @@ fun SignUpScreen2(
             maxItemsInEachRow = 2,
             modifier = modifier.fillMaxWidth()
         ) {
-            for (i in 0..7) {
+            jobs.forEach {
                 Box(
                     modifier = modifier
                         .padding(16.dp)
@@ -58,7 +58,7 @@ fun SignUpScreen2(
                     contentAlignment = Alignment.Center,
                 ) {
                     Text(
-                        text = jobs[i],
+                        text = it,
                         fontSize = 20.sp,
                     )
                 }

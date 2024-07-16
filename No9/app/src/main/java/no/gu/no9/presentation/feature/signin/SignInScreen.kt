@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -55,7 +57,6 @@ fun SignInScreen(
                 )
         )
         Spacer(modifier = Modifier.height(40.dp))
-
         OutlinedTextField(
             value = id,
             onValueChange = { id = it },
@@ -68,7 +69,7 @@ fun SignInScreen(
                 .fillMaxWidth(),
             placeholder = {
                 Text(text = "아이디를 입력하세요")
-            }
+            },
         )
         OutlinedTextField(
             value = password,

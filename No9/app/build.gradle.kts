@@ -66,4 +66,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.squareup.retrofit)
+    implementation(libs.converter.moshi)
+    implementation(libs.logging.interceptor)
+    api(libs.kotlinx.serialization.json)
+    implementation(libs.converter.gson)
+
+    api(libs.coil.compose)
+    implementation(libs.androidx.navigation.compose)
 }

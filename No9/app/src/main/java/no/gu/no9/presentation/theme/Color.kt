@@ -1,4 +1,4 @@
-package no.gu.no9.ui.theme
+package no.gu.no9.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

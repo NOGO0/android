@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import no.gu.no9.presentation.feature.recruitment.FilterScreen
 import no.gu.no9.presentation.feature.recruitment.RecruitmentRequestsScreen
 import no.gu.no9.presentation.feature.signin.SignInScreen
 import no.gu.no9.presentation.feature.signup.SignUpScreen1
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.RecruitmentRequests.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.Filter.route) {
             composable(AppNavigationItem.SignIn.route) {
                 SignInScreen(navController = navController)
             }
@@ -49,6 +50,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(AppNavigationItem.SignUp3.route) {
                 SignUpScreen3(navController = navController)
+            }
+            composable(AppNavigationItem.Filter.route) {
+                FilterScreen(navController = navController)
             }
         }
     }

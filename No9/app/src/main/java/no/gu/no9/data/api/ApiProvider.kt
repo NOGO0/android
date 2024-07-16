@@ -2,8 +2,6 @@ package no.gu.no9.data.api
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -11,14 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
-    private var BASE_URL = "https://onui.kanghyuk.co.kr/"
-
-    /**
-     * this is a variable supported when not in json format
-     */
-    private val gson: Gson = GsonBuilder()
-        .setLenient()
-        .create()
+    private var BASE_URL = " "
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -71,4 +62,16 @@ object ApiProvider {
             chain.proceed(request)
         }
     }
+
+    fun authApi(): AuthApi = Retrofit.Builder()
+        .baseUrl(BASE_URL)
+        .client(
+            OkHttpClient.Builder()
+                .addInterceptor(getLoggingInterceptor())
+                .build()
+        )
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+        .create(AuthApi::class.java)
+
 }

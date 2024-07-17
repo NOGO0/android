@@ -2,6 +2,7 @@ package no.gu.no9.data.api
 
 import no.gu.no9.data.request.SignInRequest
 import no.gu.no9.data.request.SignUpRequest
+import no.gu.no9.data.response.LoginResponse
 import retrofit2.http.Body
 import retrofit2.http.POST
 
@@ -15,5 +16,5 @@ interface AuthApi {
     @POST("users/signin")
     suspend fun signIn(
         @Body signInRequest: SignInRequest
-    )
+    ): LoginResponse
 }

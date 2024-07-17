@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object ApiProvider {
-    private var BASE_URL = " "
+    private var BASE_URL = "https://c0b1-106-101-10-198.ngrok-free.app"
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -46,6 +46,17 @@ object ApiProvider {
             .build()
     }
 
+    private fun noTokenRetrofit(): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(getLoggingInterceptor())
+                    .build()
+            )
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+    }
     /**
      * this function puts a token in the header
      * @return interceptor that include header token
@@ -63,15 +74,10 @@ object ApiProvider {
         }
     }
 
-    fun authApi(): AuthApi = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .client(
-            OkHttpClient.Builder()
-                .addInterceptor(getLoggingInterceptor())
-                .build()
-        )
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(AuthApi::class.java)
+    fun authApi(): AuthApi = noTokenRetrofit().create(AuthApi::class.java)
+
+    fun smsSend(): SmsApi = noTokenRetrofit().create(SmsApi::class.java)
+
+    fun imageApi(): ImageApi = getRetrofit().create(ImageApi::class.java)
 
 }

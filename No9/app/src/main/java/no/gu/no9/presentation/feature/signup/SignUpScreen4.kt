@@ -1,4 +1,4 @@
-package no.gu.no9.presentation.feature.signin
+package no.gu.no9.presentation.feature.signup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,27 +23,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import no.gu.no9.R
 import no.gu.no9.presentation.AppNavigationItem
 
 @Composable
-fun SignInScreen(
+fun SignUpScreen4(
     modifier: Modifier = Modifier,
     navController: NavController,
-    signInViewModel: SignInViewModel = viewModel(),
 ) {
-    var id by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-
+    var age by remember { mutableStateOf("") }
+    var area by remember { mutableStateOf("") }
     Column(modifier = modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.sign_in_logo),
@@ -56,8 +47,8 @@ fun SignInScreen(
         )
         Spacer(modifier = Modifier.height(40.dp))
         OutlinedTextField(
-            value = id,
-            onValueChange = { id = it },
+            value = age,
+            onValueChange = { age = it },
             modifier = modifier
                 .padding(
                     horizontal = 28.dp,
@@ -66,53 +57,38 @@ fun SignInScreen(
                 .height(60.dp)
                 .fillMaxWidth(),
             placeholder = {
-                Text(text = "아이디를 입력하세요")
-            },
-        )
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            modifier = modifier
-                .padding(
-                    horizontal = 28.dp,
-                    vertical = 13.dp
-                )
-                .height(60.dp)
-                .fillMaxWidth(),
-            placeholder = {
-                Text(text = "비밀번호를 입력하세요")
+                Text(text = "나이를 입력하세요.")
             }
         )
-        Spacer(modifier = Modifier.weight(1f))
-        Text(
-            text = buildAnnotatedString {
-                append("아직 회원가입을 하지 않으셨나요? ")
-                withStyle(style = SpanStyle(textDecoration = TextDecoration.Underline)) {
-                    append("회원가입하기")
-                }
-            },
-            fontSize = 16.sp,
+        OutlinedTextField(
+            value = area,
+            onValueChange = { area = it },
             modifier = modifier
-                .fillMaxWidth()
-                .padding(20.dp)
-                .clickable {
-                    navController.navigate(AppNavigationItem.SignUp1.route)
-                },
-            textAlign = TextAlign.Center,
+                .padding(
+                    horizontal = 28.dp,
+                    vertical = 13.dp
+                )
+                .height(60.dp)
+                .fillMaxWidth(),
+            placeholder = {
+                Text(text = "근무지역을 입력하세요.")
+            }
         )
         Box(
             modifier = modifier
-                .padding(start = 28.dp, end = 28.dp, bottom = 28.dp)
+                .padding(28.dp)
                 .fillMaxWidth()
                 .height(60.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
                 .clickable {
-                    signInViewModel.signIn(id, password, navController)
+                    SignUpViewModel.area = area
+                    SignUpViewModel.age = age.toInt()
+                    navController.navigate(AppNavigationItem.SignUp3.route)
                 },
             contentAlignment = Alignment.Center,
         ) {
-            Text(text = "로그인", color = Color.White)
+            Text(text = "다음", color = Color.White)
         }
     }
 }

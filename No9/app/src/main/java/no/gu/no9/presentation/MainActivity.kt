@@ -17,6 +17,7 @@ import no.gu.no9.presentation.feature.signin.SignInScreen
 import no.gu.no9.presentation.feature.signup.SignUpScreen1
 import no.gu.no9.presentation.feature.signup.SignUpScreen2
 import no.gu.no9.presentation.feature.signup.SignUpScreen3
+import no.gu.no9.presentation.feature.signup.SignUpScreen4
 import no.gu.no9.presentation.theme.No9Theme
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +36,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.Filter.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.SignIn.route) {
             composable(AppNavigationItem.SignIn.route) {
                 SignInScreen(navController = navController)
             }
@@ -50,6 +51,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(AppNavigationItem.SignUp3.route) {
                 SignUpScreen3(navController = navController)
+            }
+            composable(AppNavigationItem.SignUp4.route) {
+                SignUpScreen4(navController = navController)
             }
             composable(AppNavigationItem.Filter.route) {
                 FilterScreen(navController = navController)

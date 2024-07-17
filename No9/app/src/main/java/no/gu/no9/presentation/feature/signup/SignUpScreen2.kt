@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import no.gu.no9.presentation.AppNavigationItem
+import no.gu.no9.presentation.feature.signup.SignUpViewModel.Companion.lst
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -53,7 +54,8 @@ fun SignUpScreen2(
                         .weight(1f)
                         .height(140.dp)
                         .clickable {
-                            navController.navigate(AppNavigationItem.SignUp3.route)
+                            lst = listOf(it)
+                            navController.navigate(AppNavigationItem.SignUp4.route)
                         },
                     contentAlignment = Alignment.Center,
                 ) {

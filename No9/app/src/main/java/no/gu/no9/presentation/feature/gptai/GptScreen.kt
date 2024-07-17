@@ -3,16 +3,13 @@ package no.gu.no9.presentation.feature.gptai
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -41,6 +38,16 @@ fun GptScreen(
     val firstText = "안녕하세요. 제가 사용자님의 복지를 알려드립니다.\n사용자님의 연령을 알려주세요!"
     var lst by remember { mutableStateOf(GptRequest(listOf())) }
     var text by remember { mutableStateOf("") }
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    if (lst.gpt_list.isNotEmpty()) {
+        LaunchedEffect(lst.gpt_list.size) {
+            coroutineScope.launch {
+                listState.scrollToItem(lst.gpt_list.size - 1)
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -54,9 +61,10 @@ fun GptScreen(
                 .clickable { navController.popBackStack() },
         )
         LazyColumn(
+            state = listState,
             modifier = modifier
                 .padding(horizontal = 12.dp)
-                .fillMaxHeight(0.8f)
+                .fillMaxHeight(0.85f)
         ) {
             item {
                 Row {
@@ -88,7 +96,7 @@ fun GptScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
+                    verticalAlignment = Alignment.Top,
                 ) {
                     if (gpt.role == "user") {
                         Spacer(modifier = Modifier.weight(1f))
@@ -101,7 +109,10 @@ fun GptScreen(
                     }
                     Box(
                         modifier = modifier
-                            .padding(end = if (gpt.role == "assistant") 60.dp else 0.dp)
+                            .padding(
+                                end = if (gpt.role == "assistant") 60.dp else 0.dp,
+                                start = if (gpt.role == "assistant") 0.dp else 60.dp,
+                            )
                             .clip(
                                 RoundedCornerShape(
                                     topEnd = if (gpt.role == "assistant") 8.dp else 0.dp,

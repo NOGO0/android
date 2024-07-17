@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -67,6 +68,7 @@ fun RecruitmentRequestsScreen(
             println(it)
         }
     }
+    val listState = rememberLazyListState()
     Box {
         Column(modifier = modifier.fillMaxSize()) {
             Image(
@@ -94,6 +96,7 @@ fun RecruitmentRequestsScreen(
             }
             if (lst.isNotEmpty()) {
                 LazyColumn(
+                    state = listState,
                     modifier = modifier
                         .fillMaxSize()
                         .background(Color(0xFFD9D9D9))

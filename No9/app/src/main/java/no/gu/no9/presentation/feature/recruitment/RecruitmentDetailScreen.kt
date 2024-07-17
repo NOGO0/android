@@ -5,7 +5,6 @@ import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +42,6 @@ import no.gu.no9.Area
 import no.gu.no9.Gender
 import no.gu.no9.Job
 import no.gu.no9.data.api.ApiProvider
-import no.gu.no9.data.request.ApplyRequest
 import no.gu.no9.data.response.FeedDetailResponse
 import no.gu.no9.presentation.AppNavigationItem
 import no.gu.no9.presentation.feature.component.Header

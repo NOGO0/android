@@ -67,3 +67,31 @@ fun getImageMultipart(key: String, file: File): MultipartBody.Part {
         body = file.asRequestBody("multipart/form-data".toMediaType())
     )
 }
+
+
+enum class WorkDay {
+    MON, TUE, WED, THU, FRI, SAT, SUN
+}
+
+enum class Job {
+    DEVELOPER,
+    CARE,
+    GUARD,
+    DOCUMENT,
+    COOK,
+    SERVING,
+    DELIVERY,
+    SALES
+}
+
+enum class Gender {
+    MALE, FEMALE
+}
+
+enum class Area {
+    SEOUL,
+    DAEJEON,
+    INCHEON,
+    GWANGJU,
+    BUSAN
+}

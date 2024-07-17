@@ -58,7 +58,7 @@ fun FilterScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Header(title = "필터", modifier = modifier)
+        Header(title = "필터", modifier = modifier.padding(start = 28.dp))
         Text(
             text = "연령",
             fontWeight = FontWeight.Bold,

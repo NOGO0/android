@@ -14,4 +14,6 @@ sealed class AppNavigationItem(val route: String) {
     data object RecruitmentRequests : AppNavigationItem("recruitmentRequests")
 
     data object Filter : AppNavigationItem("filter")
+
+    data object Detail : AppNavigationItem("recruitmentDetail")
 }

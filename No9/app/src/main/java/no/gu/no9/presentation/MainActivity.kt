@@ -13,6 +13,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import no.gu.no9.data.api.ApiProvider
 import no.gu.no9.presentation.feature.recruitment.FilterScreen
+import no.gu.no9.presentation.feature.recruitment.RecruitmentDetailScreen
 import no.gu.no9.presentation.feature.recruitment.RecruitmentRequestsScreen
 import no.gu.no9.presentation.feature.signin.SignInScreen
 import no.gu.no9.presentation.feature.signup.SignUpScreen1
@@ -59,6 +60,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(AppNavigationItem.Filter.route) {
                 FilterScreen(navController = navController)
+            }
+            composable(AppNavigationItem.Detail.route) {
+                RecruitmentDetailScreen(navController = navController)
             }
         }
     }

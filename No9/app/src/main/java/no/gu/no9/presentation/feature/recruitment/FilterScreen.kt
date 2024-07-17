@@ -49,6 +49,9 @@ fun FilterScreen(
     var area by remember { mutableStateOf("") }
     val lst = listOf("IT", "보조", "주방보조", "물류 센터", "편의점", "카페", "보육원")
     val areas: MutableList<String> = remember { mutableStateListOf() }
+    var malecheck by remember { mutableStateOf(false) }
+    var femalecheck by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -216,45 +219,49 @@ fun FilterScreen(
             modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
         )
         Row {
-            var check by remember { mutableStateOf(false) }
             Box(
                 modifier = Modifier
-
                     .padding(start = 20.dp)
                     .fillMaxWidth(0.5f)
                     .height(60.dp)
                     .background(Color(0xFFF7F7F7))
-                    .border(1.dp, Color(0xFFDDDDDD), RoundedCornerShape(5.dp))
-                    .clip(RoundedCornerShape(8.dp))
+                    .border(
+                        width = if (malecheck) 2.dp else 0.dp,
+                        color = if (malecheck) Color(0xFF3A63CD) else Color(0xFFF7F7F7),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(7.dp))
                     .align(Alignment.CenterVertically)
-                    .clickable { check = !check }
+                    .clickable {
+                        malecheck = !malecheck
+                        if (malecheck) femalecheck = false
+                    }
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center), text = "남",
-                    color = if (check) Color(0xFF3A63CD) else Color.Black
+                    color = if (malecheck) Color(0xFF3A63CD) else Color.Black
                 )
             }
             Box(
-
                 modifier = Modifier
                     .padding(end = 20.dp)
                     .fillMaxWidth()
                     .height(60.dp)
                     .background(Color(0xFFF7F7F7))
                     .border(
-                        width = if (check) 2.dp else 0.dp,
-                        color = if (check) Color(0xFF3A63CD) else Color(0x00FFFFFF),
-                        shape = RoundedCornerShape(100.dp),
+                        width = if (femalecheck) 2.dp else 0.dp,
+                        color = if (femalecheck) Color(0xFF3A63CD) else Color(0x00FFFFFF),
+                        shape = RoundedCornerShape(8.dp),
                     )
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { check = !check }
+                    .clickable { femalecheck = !femalecheck
+                        if (femalecheck) malecheck = false
+                    }
             ) {
                 Text(
                     modifier = Modifier.align(Alignment.Center), text = "여",
-                    color = if (check) Color(0xFF3A63CD) else Color.Black,
+                    color = if (femalecheck) Color(0xFF3A63CD) else Color.Black,
                 )
-
-
             }
         }
 

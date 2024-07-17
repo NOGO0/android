@@ -1,9 +1,12 @@
 package no.gu.no9.presentation.feature.recruitment
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,11 +25,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -35,18 +35,31 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import no.gu.no9.R
 import no.gu.no9.data.api.ApiProvider
 import no.gu.no9.data.response.Feed
-import java.util.ArrayList
+import no.gu.no9.presentation.AppNavigationItem
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
+fun RecruitmentRequestsScreen(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+) {
     val lst: MutableList<Feed> = remember { mutableStateListOf() }
     LaunchedEffect(Unit) {
         kotlin.runCatching {
-            ApiProvider.feedApi().fetchFeeds(null, null, null, null, null, null, null)
+            ApiProvider.feedApi().fetchFeeds(
+                RecruitmentViewModel.age,
+                RecruitmentViewModel.job,
+                RecruitmentViewModel.area,
+                RecruitmentViewModel.workDay,
+                RecruitmentViewModel.startTime,
+                RecruitmentViewModel.endTime,
+                RecruitmentViewModel.gender,
+            )
         }.onSuccess {
             lst.addAll(it.feedList)
             println(lst)
@@ -66,14 +79,15 @@ fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
         )
         Row(
             modifier = modifier
-                .horizontalScroll(rememberScrollState())
                 .fillMaxWidth()
+                .padding(8.dp),
+            horizontalArrangement = Arrangement.End,
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.ic_filter),
                 contentDescription = "filter",
                 modifier = modifier.clickable {
-
+                    navController.navigate(AppNavigationItem.Filter.route)
                 }
             )
         }
@@ -83,10 +97,15 @@ fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
                     .fillMaxSize()
                     .background(Color(0xFFD9D9D9))
             ) {
-                println(lst + "1")
                 items(lst) {
-                    println(lst + "2")
-                    JobCard(lst = it)
+                    JobCard(
+                        lst = it,
+                        modifier = modifier.clickable {
+                            println(it.id)
+                            RecruitmentViewModel.companyId = it.id
+                            navController.navigate(AppNavigationItem.Detail.route)
+                        }
+                    )
                 }
             }
         }
@@ -94,9 +113,9 @@ fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun JobCard(lst: Feed) {
+fun JobCard(lst: Feed, modifier: Modifier) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .padding(8.dp)
             .background(Color.White, shape = RoundedCornerShape(8.dp))
             .padding(16.dp)

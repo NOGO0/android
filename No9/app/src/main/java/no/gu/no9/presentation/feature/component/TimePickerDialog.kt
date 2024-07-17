@@ -1,5 +1,8 @@
 package no.gu.no9.presentation.feature.component
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -11,10 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import java.time.LocalTime
 
+@RequiresApi(Build.VERSION_CODES.O)
 @ExperimentalMaterial3Api
 @Composable
-fun TimePickerExample() {
+fun TimePickerExample(
+    fetchEndTime: (String) -> Unit,
+    fetchStartTime: (String) -> Unit,
+) {
     var startTime by remember { mutableStateOf("시작시간") }
     var endTime by remember { mutableStateOf("종료시간") }
     var startExpanded by remember { mutableStateOf(false) }
@@ -59,7 +67,11 @@ fun TimePickerExample() {
                         startTime = time
                         startExpanded = false
                     },
-                        text = { Text(text = time) })
+                        text = {
+                            Text(text = time)
+                            fetchStartTime(time)
+                            Log.d("it", LocalTime.parse("$time:00").toString())
+                        })
                 }
             }
         }
@@ -96,6 +108,7 @@ fun TimePickerExample() {
                         endExpanded = false
                     }, text = {
                         Text(text = time)
+                        fetchEndTime(time)
                     })
                 }
             }

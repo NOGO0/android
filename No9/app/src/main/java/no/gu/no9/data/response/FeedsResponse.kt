@@ -8,6 +8,7 @@ data class FeedsResponse(
 )
 
 data class Feed(
+    val id: Long,
     val title: String,
     val area: Area,
     val salary: Int,

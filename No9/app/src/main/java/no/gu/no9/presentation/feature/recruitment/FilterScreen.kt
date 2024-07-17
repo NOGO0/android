@@ -1,5 +1,8 @@
 package no.gu.no9.presentation.feature.recruitment
 
+import android.os.Build
+import android.util.Log
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -34,14 +37,19 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import no.gu.no9.presentation.AppNavigationItem
+import no.gu.no9.Area
+import no.gu.no9.Gender
+import no.gu.no9.Job
+import no.gu.no9.WorkDay
 import no.gu.no9.presentation.feature.component.Header
 import no.gu.no9.presentation.feature.component.TimePickerExample
+import java.time.LocalTime
 
 fun checkAge(age: Int): Int {
     return age - age % (age / 10)
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun FilterScreen(
@@ -50,7 +58,7 @@ fun FilterScreen(
 ) {
     var age by remember { mutableStateOf("") }
     var area by remember { mutableStateOf("") }
-    val lst = listOf("IT", "보조", "주방보조", "물류 센터", "편의점", "카페", "보육원")
+    val lst = listOf("보육", "주방", "경비", "IT", "서빙", "사무", "배달", "기타")
     val areas: MutableList<String> = remember { mutableStateListOf() }
     var malecheck by remember { mutableStateOf(false) }
     var femalecheck by remember { mutableStateOf(false) }
@@ -58,7 +66,11 @@ fun FilterScreen(
     Column(
         modifier = modifier.fillMaxSize()
     ) {
-        Header(title = "필터", modifier = modifier.padding(start = 28.dp))
+        Header(
+            title = "필터",
+            modifier = modifier
+                .padding(start = 28.dp)
+                .clickable { navController.popBackStack() })
         Text(
             text = "연령",
             fontWeight = FontWeight.Bold,
@@ -92,13 +104,25 @@ fun FilterScreen(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            repeat(lst.size) {
+            lst.forEach {
                 var check by remember { mutableStateOf(false) }
                 Box(
                     modifier = modifier
                         .clip(RoundedCornerShape(100.dp))
                         .background(Color(0xFFEEEEEE))
-                        .clickable { check = !check }
+                        .clickable {
+                            check = !check
+                            RecruitmentViewModel.job = when (it) {
+                                "보육" -> Job.CARE
+                                "주방" -> Job.COOK
+                                "경비" -> Job.GUARD
+                                "IT" -> Job.DEVELOPER
+                                "서빙" -> Job.SERVING
+                                "사무" -> Job.DOCUMENT
+                                "배달" -> Job.DELIVERY
+                                else -> Job.SALES
+                            }
+                        }
                         .border(
                             width = if (check) 2.dp else 0.dp,
                             color = if (check) Color(0xFF3A63CD) else Color(0x00FFFFFF),
@@ -106,7 +130,7 @@ fun FilterScreen(
                         )
                 ) {
                     Text(
-                        text = lst[it],
+                        text = it,
                         modifier = modifier.padding(6.dp),
                         color = if (check) Color(0xFF3A63CD) else Color.Black,
                     )
@@ -138,6 +162,13 @@ fun FilterScreen(
             keyboardActions = KeyboardActions(
                 onDone = {
                     areas.add(area)
+                    RecruitmentViewModel.area = when (area) {
+                        "서울" -> Area.SEOUL
+                        "부산" -> Area.BUSAN
+                        "인천" -> Area.INCHEON
+                        "대전" -> Area.DAEJEON
+                        else -> Area.GWANGJU
+                    }
                     area = ""
                 }
             )
@@ -198,7 +229,18 @@ fun FilterScreen(
                             shape = RoundedCornerShape(100.dp),
                         )
                         .padding(vertical = 6.dp, horizontal = 10.dp)
-                        .clickable { check = !check }
+                        .clickable {
+                            check = !check
+                            RecruitmentViewModel.workDay = when (it) {
+                                "월" -> WorkDay.MON
+                                "화" -> WorkDay.TUE
+                                "수" -> WorkDay.WED
+                                "목" -> WorkDay.THU
+                                "금" -> WorkDay.FRI
+                                "토" -> WorkDay.SAT
+                                else -> WorkDay.SUN
+                            }
+                        }
                 ) {
                     Text(
                         text = it,
@@ -213,8 +255,16 @@ fun FilterScreen(
             fontSize = 22.sp,
             modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
         )
-        TimePickerExample()
-
+        TimePickerExample(
+            fetchStartTime = {
+                RecruitmentViewModel.startTime =
+                    if (it == "23:30") null else LocalTime.parse("$it:00")
+            },
+            fetchEndTime = {
+                RecruitmentViewModel.endTime =
+                    if (it == "23:30") null else LocalTime.parse("$it:00")
+            },
+        )
         Text(
             text = "성별",
             fontWeight = FontWeight.Bold,
@@ -238,6 +288,7 @@ fun FilterScreen(
                     .clickable {
                         malecheck = !malecheck
                         if (malecheck) femalecheck = false
+                        RecruitmentViewModel.gender = Gender.MALE
                     }
             ) {
                 Text(
@@ -260,6 +311,7 @@ fun FilterScreen(
                     .clickable {
                         femalecheck = !femalecheck
                         if (femalecheck) malecheck = false
+                        RecruitmentViewModel.gender = Gender.FEMALE
                     }
             ) {
                 Text(
@@ -268,7 +320,6 @@ fun FilterScreen(
                 )
             }
         }
-
         Box(
             modifier = modifier
                 .padding(top = 60.dp, start = 28.dp, end = 28.dp)
@@ -277,7 +328,8 @@ fun FilterScreen(
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
                 .clickable {
-                    navController.navigate(AppNavigationItem.Filter.route)
+                    RecruitmentViewModel.age = if (age != "") checkAge(age.toInt()) else 0
+                    navController.popBackStack()
                 },
             contentAlignment = Alignment.Center,
         ) {

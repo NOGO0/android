@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object ApiProvider {
-    private var BASE_URL = "https://c0b1-106-101-10-198.ngrok-free.app"
+    private var BASE_URL = "https://bc64-106-101-2-118.ngrok-free.app"
 
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -83,4 +83,5 @@ object ApiProvider {
 
     fun feedApi(): FeedApi = getRetrofit().create(FeedApi::class.java)
 
+    fun applyApi(): ApplyApi = getRetrofit().create(ApplyApi::class.java)
 }

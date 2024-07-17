@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.SignIn.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.SignUp3.route) {
             composable(AppNavigationItem.SignIn.route) {
                 SignInScreen(navController = navController)
             }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +25,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
@@ -47,6 +50,15 @@ fun SignUpScreen3(
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordCheck by remember { mutableStateOf("") }
+    var isVisible by remember { mutableStateOf(false) }
+    var isVisibleCheck by remember { mutableStateOf(false) }
+    val passwordResource : (Boolean) -> Int = {
+        if(it) { // true
+            R.drawable.ic_visible
+        }else{
+            R.drawable.ic_invisible
+        }
+    }
     Column(modifier = modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.sign_in_logo),
@@ -85,6 +97,17 @@ fun SignUpScreen3(
             placeholder = {
                 Text(text = "비밀번호")
             },
+            trailingIcon = {
+                IconButton(onClick = {
+                    isVisible = !isVisible
+                }) {
+                    Image(
+                        painter = painterResource(id = passwordResource(isVisible)),
+                        contentDescription = if (isVisible) "Hide password" else "Show password",
+                    )
+                }
+            },
+            visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
         )
         OutlinedTextField(
             value = passwordCheck,
@@ -96,9 +119,18 @@ fun SignUpScreen3(
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
-            placeholder = {
-                Text(text = "비밀번호 확인")
+            placeholder = { Text(text = "비밀번호 확인") },
+            trailingIcon = {
+                IconButton(onClick = {
+                    isVisibleCheck = !isVisibleCheck
+                }) {
+                    Image(
+                        painter = painterResource(id = passwordResource(isVisibleCheck)),
+                        contentDescription = if (isVisibleCheck) "Hide password" else "Show password",
+                    )
+                }
             },
+            visualTransformation = if (isVisibleCheck) VisualTransformation.None else PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.weight(1f))
         Box(
@@ -110,11 +142,28 @@ fun SignUpScreen3(
                 .background(Color(0xFF3A63CD))
                 .clickable {
                     CoroutineScope(Dispatchers.IO).launch {
-                        kotlin.runCatching {
-                            ApiProvider
-                                .authApi()
-                                .signUp(
-                                    signUpRequest = SignUpRequest(
+                        kotlin
+                            .runCatching {
+                                ApiProvider
+                                    .authApi()
+                                    .signUp(
+                                        signUpRequest = SignUpRequest(
+                                            accountId = id,
+                                            password = password,
+                                            age = age,
+                                            area = area,
+                                            name = name,
+                                            phone = phone,
+                                            skill = lst,
+                                        )
+                                    )
+                            }
+                            .onSuccess {
+                                Log.d("asd", "asd")
+                            }
+                            .onFailure {
+                                println(
+                                    SignUpRequest(
                                         accountId = id,
                                         password = password,
                                         age = age,
@@ -124,19 +173,7 @@ fun SignUpScreen3(
                                         skill = lst,
                                     )
                                 )
-                        }.onSuccess {
-                            Log.d("asd","asd")
-                        }.onFailure {
-                            println(SignUpRequest(
-                                accountId = id,
-                                password = password,
-                                age = age,
-                                area = area,
-                                name = name,
-                                phone = phone,
-                                skill = lst,
-                            ))
-                        }
+                            }
                     }
                     navController.navigate(AppNavigationItem.SignIn.route)
                 },

@@ -1,5 +1,6 @@
 package no.gu.no9.presentation.feature.signin
 
+import android.widget.ImageButton
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -45,6 +49,14 @@ fun SignInScreen(
 ) {
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+    var isVisible by remember { mutableStateOf(false) }
+    val passwordResource : (Boolean) -> Int = {
+        if(it) { // true
+            R.drawable.ic_visible
+        }else{
+            R.drawable.ic_invisible
+        }
+    }
 
     Column(modifier = modifier.fillMaxSize()) {
         Image(
@@ -81,9 +93,18 @@ fun SignInScreen(
                 )
                 .height(60.dp)
                 .fillMaxWidth(),
-            placeholder = {
-                Text(text = "비밀번호를 입력하세요")
-            }
+            placeholder = { Text(text = "비밀번호를 입력하세요") },
+            trailingIcon = {
+                IconButton(onClick = {
+                    isVisible = !isVisible
+                }) {
+                    Image(
+                        painter = painterResource(id = passwordResource(isVisible)),
+                        contentDescription = if (isVisible) "Hide password" else "Show password",
+                    )
+                }
+            },
+            visualTransformation = if (isVisible) VisualTransformation.None else PasswordVisualTransformation()
         )
         Spacer(modifier = Modifier.weight(1f))
         Text(

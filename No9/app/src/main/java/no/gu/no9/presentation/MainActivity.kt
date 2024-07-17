@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import no.gu.no9.data.api.ApiProvider
+import no.gu.no9.presentation.feature.gptai.GptScreen
 import no.gu.no9.presentation.feature.recruitment.ApplyScreen
 import no.gu.no9.presentation.feature.recruitment.FilterScreen
 import no.gu.no9.presentation.feature.recruitment.RecruitmentDetailScreen
@@ -44,7 +45,7 @@ class MainActivity : ComponentActivity() {
     @Composable
     private fun BaseApp() {
         val navController = rememberNavController()
-        NavHost(navController = navController, startDestination = AppNavigationItem.RecruitmentRequests.route) {
+        NavHost(navController = navController, startDestination = AppNavigationItem.Gpt.route) {
             composable(AppNavigationItem.SignIn.route) {
                 SignInScreen(navController = navController)
             }
@@ -71,6 +72,9 @@ class MainActivity : ComponentActivity() {
             }
             composable(AppNavigationItem.Apply.route) {
                 ApplyScreen(navController = navController)
+            }
+            composable(AppNavigationItem.Gpt.route) {
+                GptScreen(navController = navController)
             }
         }
     }

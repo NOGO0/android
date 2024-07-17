@@ -84,4 +84,6 @@ object ApiProvider {
     fun feedApi(): FeedApi = getRetrofit().create(FeedApi::class.java)
 
     fun applyApi(): ApplyApi = getRetrofit().create(ApplyApi::class.java)
+
+    fun gptApi(): GptApi = getRetrofit().create(GptApi::class.java)
 }

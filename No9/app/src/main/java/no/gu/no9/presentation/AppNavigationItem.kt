@@ -18,4 +18,6 @@ sealed class AppNavigationItem(val route: String) {
     data object Detail : AppNavigationItem("recruitmentDetail")
 
     data object Apply : AppNavigationItem("apply")
+
+    data object Gpt : AppNavigationItem("gpt")
 }

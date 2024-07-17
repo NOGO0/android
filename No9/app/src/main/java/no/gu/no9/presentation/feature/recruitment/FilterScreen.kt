@@ -1,6 +1,5 @@
 package no.gu.no9.presentation.feature.recruitment
 
-import android.graphics.Paint.Style
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -38,6 +37,10 @@ import androidx.navigation.NavController
 import no.gu.no9.presentation.AppNavigationItem
 import no.gu.no9.presentation.feature.component.Header
 import no.gu.no9.presentation.feature.component.TimePickerExample
+
+fun checkAge(age: Int): Int {
+    return age - age % (age / 10)
+}
 
 @OptIn(ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -254,7 +257,8 @@ fun FilterScreen(
                         shape = RoundedCornerShape(8.dp),
                     )
                     .clip(RoundedCornerShape(8.dp))
-                    .clickable { femalecheck = !femalecheck
+                    .clickable {
+                        femalecheck = !femalecheck
                         if (femalecheck) malecheck = false
                     }
             ) {
@@ -264,7 +268,6 @@ fun FilterScreen(
                 )
             }
         }
-
 
         Box(
             modifier = modifier

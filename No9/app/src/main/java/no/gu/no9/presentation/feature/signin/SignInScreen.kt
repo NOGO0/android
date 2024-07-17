@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,7 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
@@ -123,23 +121,27 @@ fun SignInScreen(
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
                 .clickable {
-                    //signInViewModel.signIn(id, password)
                     CoroutineScope(Dispatchers.IO).launch {
-                        kotlin.runCatching {
-                            ApiProvider.authApi().signIn(SignInRequest(accountId = id, password = password))
-                        }.onSuccess {
-                            token = it.accessToken
-                            println(it)
-                            sharedPreferences
-                                .edit()
-                                .putString("token", token)
-                                .apply()
-                            withContext(Dispatchers.Main) {
-                                navController.navigate(AppNavigationItem.RecruitmentRequests.route)
+                        kotlin
+                            .runCatching {
+                                ApiProvider
+                                    .authApi()
+                                    .signIn(SignInRequest(accountId = id, password = password))
                             }
-                        }.onFailure {
-                            println(it)
-                        }
+                            .onSuccess {
+                                token = it.accessToken
+                                println(it)
+                                sharedPreferences
+                                    .edit()
+                                    .putString("token", token)
+                                    .apply()
+                                withContext(Dispatchers.Main) {
+                                    navController.navigate(AppNavigationItem.RecruitmentRequests.route)
+                                }
+                            }
+                            .onFailure {
+                                println(it)
+                            }
                     }
                 },
             contentAlignment = Alignment.Center,

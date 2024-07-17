@@ -110,11 +110,28 @@ fun SignUpScreen3(
                 .background(Color(0xFF3A63CD))
                 .clickable {
                     CoroutineScope(Dispatchers.IO).launch {
-                        kotlin.runCatching {
-                            ApiProvider
-                                .authApi()
-                                .signUp(
-                                    signUpRequest = SignUpRequest(
+                        kotlin
+                            .runCatching {
+                                ApiProvider
+                                    .authApi()
+                                    .signUp(
+                                        signUpRequest = SignUpRequest(
+                                            accountId = id,
+                                            password = password,
+                                            age = age,
+                                            area = area,
+                                            name = name,
+                                            phone = phone,
+                                            skill = lst,
+                                        )
+                                    )
+                            }
+                            .onSuccess {
+                                Log.d("asd", "asd")
+                            }
+                            .onFailure {
+                                println(
+                                    SignUpRequest(
                                         accountId = id,
                                         password = password,
                                         age = age,
@@ -124,19 +141,7 @@ fun SignUpScreen3(
                                         skill = lst,
                                     )
                                 )
-                        }.onSuccess {
-                            Log.d("asd","asd")
-                        }.onFailure {
-                            println(SignUpRequest(
-                                accountId = id,
-                                password = password,
-                                age = age,
-                                area = area,
-                                name = name,
-                                phone = phone,
-                                skill = lst,
-                            ))
-                        }
+                            }
                     }
                     navController.navigate(AppNavigationItem.SignIn.route)
                 },

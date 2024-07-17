@@ -14,14 +14,12 @@ class SignInViewModel : ViewModel() {
     fun signIn(
         id: String,
         password: String,
-        navController: NavController,
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             kotlin.runCatching {
                 ApiProvider.authApi().signIn(SignInRequest(accountId = id, password = password))
             }.onSuccess {
                 println(it)
-                navController.navigate(AppNavigationItem.RecruitmentRequests.route)
             }.onFailure {
                 println(it)
             }

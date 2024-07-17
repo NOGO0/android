@@ -29,7 +29,7 @@ fun SignUpScreen2(
     modifier: Modifier = Modifier,
     navController: NavController,
 ) {
-    val jobs = listOf("개발", "기획", "디자인", "마케팅", "스타트업", "QA", "PM", "기타")
+    val jobs = listOf("개발", "돌봄", "경비", "서류", "요리", "서빙", "배달", "기타")
     Column(modifier = modifier.fillMaxSize()) {
         Text(
             text = "본인의 직종을\n선택해 주세요",

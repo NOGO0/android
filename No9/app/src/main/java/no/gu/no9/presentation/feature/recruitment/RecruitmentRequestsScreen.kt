@@ -21,18 +21,39 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import no.gu.no9.R
+import no.gu.no9.data.api.ApiProvider
+import no.gu.no9.data.response.Feed
+import java.util.ArrayList
 
 @Composable
 fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
-    val lst = listOf("", "", "", "", "", "", "", "", "", "", "", "")
+    val lst: MutableList<Feed> = remember { mutableStateListOf() }
+    LaunchedEffect(Unit) {
+        kotlin.runCatching {
+            ApiProvider.feedApi().fetchFeeds(null, null, null, null, null, null, null)
+        }.onSuccess {
+            lst.addAll(it.feedList)
+            println(lst)
+        }.onFailure {
+            println(it)
+        }
+    }
     Column(modifier = modifier.fillMaxSize()) {
         Image(
             painter = painterResource(id = R.drawable.ic_no9),
@@ -56,20 +77,24 @@ fun RecruitmentRequestsScreen(modifier: Modifier = Modifier) {
                 }
             )
         }
-        LazyColumn(
-            modifier = modifier
-                .fillMaxSize()
-                .background(Color(0xFFD9D9D9))
-        ) {
-            items(lst) {
-                JobCard()
+        if (lst.isNotEmpty()) {
+            LazyColumn(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(Color(0xFFD9D9D9))
+            ) {
+                println(lst + "1")
+                items(lst) {
+                    println(lst + "2")
+                    JobCard(lst = it)
+                }
             }
         }
     }
 }
 
 @Composable
-fun JobCard() {
+fun JobCard(lst: Feed) {
     Row(
         modifier = Modifier
             .padding(8.dp)
@@ -78,15 +103,25 @@ fun JobCard() {
             .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Box(
-            modifier = Modifier
-                .size(64.dp)
-                .background(Color.Gray, shape = RoundedCornerShape(8.dp))
-        )
+        if (lst.image.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+                    .background(Color.Gray, shape = RoundedCornerShape(8.dp))
+            )
+        } else {
+            AsyncImage(
+                model = lst.image,
+                contentDescription = "image",
+                modifier = Modifier
+                    .size(64.dp)
+                    .clip(shape = RoundedCornerShape(8.dp))
+            )
+        }
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(
-                text = "OO아파트 경비원 구합니다",
+                text = lst.title,
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -99,11 +134,9 @@ fun JobCard() {
                     contentDescription = "Location",
                     modifier = Modifier.size(16.dp)
                 )
-
                 Spacer(modifier = Modifier.width(4.dp))
-
                 Text(
-                    text = "서울 강남구",
+                    text = lst.area.name,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
@@ -111,7 +144,7 @@ fun JobCard() {
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Text(
-                    text = "2,000,000 원/월",
+                    text = "${lst.salary}원/월",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF007BFF)

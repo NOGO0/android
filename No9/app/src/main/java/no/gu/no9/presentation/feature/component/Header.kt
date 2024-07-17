@@ -21,8 +21,7 @@ fun Header(
     modifier: Modifier,
 ) {
     Box(
-        modifier = Modifier
-            .padding(start = 28.dp)
+        modifier = modifier
             .fillMaxWidth(0.5f)
             .fillMaxHeight(0.1f)
     ) {
@@ -33,7 +32,6 @@ fun Header(
             Icon(
                 Icons.AutoMirrored.Filled.ArrowBack,
                 contentDescription = "arrowBack",
-                modifier = modifier,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(

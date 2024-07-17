@@ -7,6 +7,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.create
 
 object ApiProvider {
     private var BASE_URL = "https://c0b1-106-101-10-198.ngrok-free.app"
@@ -79,5 +80,7 @@ object ApiProvider {
     fun smsSend(): SmsApi = noTokenRetrofit().create(SmsApi::class.java)
 
     fun imageApi(): ImageApi = getRetrofit().create(ImageApi::class.java)
+
+    fun feedApi(): FeedApi = getRetrofit().create(FeedApi::class.java)
 
 }

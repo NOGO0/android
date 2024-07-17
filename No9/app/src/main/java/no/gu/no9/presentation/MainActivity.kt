@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import no.gu.no9.data.api.ApiProvider
 import no.gu.no9.presentation.feature.recruitment.FilterScreen
 import no.gu.no9.presentation.feature.recruitment.RecruitmentRequestsScreen
 import no.gu.no9.presentation.feature.signin.SignInScreen
@@ -31,6 +32,7 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+        ApiProvider.initialize(applicationContext)
     }
 
     @Composable
@@ -51,6 +53,12 @@ class MainActivity : ComponentActivity() {
             }
             composable(AppNavigationItem.SignUp3.route) {
                 SignUpScreen3(navController = navController)
+            }
+            composable(AppNavigationItem.SignUp4.route) {
+                SignUpScreen4(navController = navController)
+            }
+            composable(AppNavigationItem.Filter.route) {
+                FilterScreen(navController = navController)
             }
         }
     }

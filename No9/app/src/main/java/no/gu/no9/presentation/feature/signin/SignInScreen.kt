@@ -1,5 +1,6 @@
 package no.gu.no9.presentation.feature.signin
 
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,6 +24,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -34,7 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import no.gu.no9.R
+import no.gu.no9.data.api.ApiProvider
+import no.gu.no9.data.request.SignInRequest
 import no.gu.no9.presentation.AppNavigationItem
 
 @Composable
@@ -45,6 +53,11 @@ fun SignInScreen(
 ) {
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+    var token by remember { mutableStateOf("") }
+    val sharedPreferences = context.getSharedPreferences("my_shared_prefs", Context.MODE_PRIVATE)
+
 
     Column(modifier = modifier.fillMaxSize()) {
         Image(
@@ -110,7 +123,24 @@ fun SignInScreen(
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
                 .clickable {
-                    signInViewModel.signIn(id, password, navController)
+                    //signInViewModel.signIn(id, password)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        kotlin.runCatching {
+                            ApiProvider.authApi().signIn(SignInRequest(accountId = id, password = password))
+                        }.onSuccess {
+                            token = it.accessToken
+                            println(it)
+                            sharedPreferences
+                                .edit()
+                                .putString("token", token)
+                                .apply()
+                            withContext(Dispatchers.Main) {
+                                navController.navigate(AppNavigationItem.RecruitmentRequests.route)
+                            }
+                        }.onFailure {
+                            println(it)
+                        }
+                    }
                 },
             contentAlignment = Alignment.Center,
         ) {

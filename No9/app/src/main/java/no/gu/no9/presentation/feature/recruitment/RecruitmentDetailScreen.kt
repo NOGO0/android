@@ -43,7 +43,10 @@ fun RecruitmentDetailScreen(
             Text(text = "1")
         }
         Detail()
-        Text(text = "salkndksdjnvsadjklnvakjlnvkjsdlnvksjdnsakjdnvskaldnsdkalvnksdlvnklsadvnjasdasdasd")
+        Text(
+            text = "salkndksdjnvsadjklnvakjlnvkjsdlnvksjdnsakjdnvskaldnsdkalvnksdlvnklsadvnjasdasdasd",
+            modifier = modifier.padding(horizontal = 28.dp),
+        )
     }
 }
 

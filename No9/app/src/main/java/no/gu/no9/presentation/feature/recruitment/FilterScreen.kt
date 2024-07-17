@@ -15,9 +15,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -63,7 +65,8 @@ fun FilterScreen(
     var femalecheck by remember { mutableStateOf(false) }
 
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
     ) {
         Header(
             title = "필터",
@@ -321,7 +324,7 @@ fun FilterScreen(
         }
         Box(
             modifier = modifier
-                .padding(top = 60.dp, start = 28.dp, end = 28.dp)
+                .padding(top = 12.dp, start = 28.dp, end = 28.dp)
                 .fillMaxWidth()
                 .height(55.dp)
                 .clip(RoundedCornerShape(8.dp))

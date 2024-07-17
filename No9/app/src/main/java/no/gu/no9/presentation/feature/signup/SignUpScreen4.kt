@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import no.gu.no9.Area
 import no.gu.no9.R
 import no.gu.no9.presentation.AppNavigationItem
 
@@ -82,7 +83,13 @@ fun SignUpScreen4(
                 .clip(RoundedCornerShape(8.dp))
                 .background(Color(0xFF3A63CD))
                 .clickable {
-                    SignUpViewModel.area = area
+                    SignUpViewModel.area = when (area) {
+                        "서울" -> Area.SEOUL
+                        "부산" -> Area.BUSAN
+                        "인천" -> Area.INCHEON
+                        "대전" -> Area.DAEJEON
+                        else -> Area.GWANGJU
+                    }
                     SignUpViewModel.age = age.toInt()
                     navController.navigate(AppNavigationItem.SignUp3.route)
                 },

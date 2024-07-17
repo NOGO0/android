@@ -1,7 +1,6 @@
 package no.gu.no9.presentation.feature.recruitment
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

@@ -52,12 +52,6 @@ class MainActivity : ComponentActivity() {
             composable(AppNavigationItem.SignUp3.route) {
                 SignUpScreen3(navController = navController)
             }
-            composable(AppNavigationItem.SignUp4.route) {
-                SignUpScreen4(navController = navController)
-            }
-            composable(AppNavigationItem.Filter.route) {
-                FilterScreen(navController = navController)
-            }
         }
     }
 }

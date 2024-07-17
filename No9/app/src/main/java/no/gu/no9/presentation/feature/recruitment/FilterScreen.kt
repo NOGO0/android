@@ -1,5 +1,6 @@
 package no.gu.no9.presentation.feature.recruitment
 
+import android.graphics.Paint.Style
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,6 +26,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import no.gu.no9.presentation.AppNavigationItem
 import no.gu.no9.presentation.feature.component.Header
 import no.gu.no9.presentation.feature.component.TimePickerExample
 
@@ -46,6 +49,9 @@ fun FilterScreen(
     var area by remember { mutableStateOf("") }
     val lst = listOf("IT", "보조", "주방보조", "물류 센터", "편의점", "카페", "보육원")
     val areas: MutableList<String> = remember { mutableStateListOf() }
+    var malecheck by remember { mutableStateOf(false) }
+    var femalecheck by remember { mutableStateOf(false) }
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {
@@ -205,5 +211,74 @@ fun FilterScreen(
             modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
         )
         TimePickerExample()
+
+        Text(
+            text = "성별",
+            fontWeight = FontWeight.Bold,
+            fontSize = 22.sp,
+            modifier = modifier.padding(horizontal = 28.dp, vertical = 10.dp)
+        )
+        Row {
+            Box(
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .fillMaxWidth(0.5f)
+                    .height(60.dp)
+                    .background(Color(0xFFF7F7F7))
+                    .border(
+                        width = if (malecheck) 2.dp else 0.dp,
+                        color = if (malecheck) Color(0xFF3A63CD) else Color(0xFFF7F7F7),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(7.dp))
+                    .align(Alignment.CenterVertically)
+                    .clickable {
+                        malecheck = !malecheck
+                        if (malecheck) femalecheck = false
+                    }
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center), text = "남",
+                    color = if (malecheck) Color(0xFF3A63CD) else Color.Black
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .fillMaxWidth()
+                    .height(60.dp)
+                    .background(Color(0xFFF7F7F7))
+                    .border(
+                        width = if (femalecheck) 2.dp else 0.dp,
+                        color = if (femalecheck) Color(0xFF3A63CD) else Color(0x00FFFFFF),
+                        shape = RoundedCornerShape(8.dp),
+                    )
+                    .clip(RoundedCornerShape(8.dp))
+                    .clickable { femalecheck = !femalecheck
+                        if (femalecheck) malecheck = false
+                    }
+            ) {
+                Text(
+                    modifier = Modifier.align(Alignment.Center), text = "여",
+                    color = if (femalecheck) Color(0xFF3A63CD) else Color.Black,
+                )
+            }
+        }
+
+
+        Box(
+            modifier = modifier
+                .padding(top = 60.dp, start = 28.dp, end = 28.dp)
+                .fillMaxWidth()
+                .height(55.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFF3A63CD))
+                .clickable {
+                    navController.navigate(AppNavigationItem.Filter.route)
+                },
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(text = "적용하기", color = Color.White, fontWeight = FontWeight.Bold)
+        }
     }
 }

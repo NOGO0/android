@@ -67,48 +67,57 @@ fun RecruitmentRequestsScreen(
             println(it)
         }
     }
-    Column(modifier = modifier.fillMaxSize()) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_no9),
-            contentDescription = "logo",
-            modifier = modifier
-                .padding(
-                    top = 50.dp,
-                    start = 40.dp
-                )
-        )
-        Row(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            horizontalArrangement = Arrangement.End,
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_filter),
-                contentDescription = "filter",
-                modifier = modifier.clickable {
-                    navController.navigate(AppNavigationItem.Filter.route)
-                }
-            )
-        }
-        if (lst.isNotEmpty()) {
-            LazyColumn(
+    Box {
+        Column(modifier = modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_no9),
+                contentDescription = "logo",
                 modifier = modifier
-                    .fillMaxSize()
-                    .background(Color(0xFFD9D9D9))
-            ) {
-                items(lst) {
-                    JobCard(
-                        lst = it,
-                        modifier = modifier.clickable {
-                            println(it.id)
-                            RecruitmentViewModel.companyId = it.id
-                            navController.navigate(AppNavigationItem.Detail.route)
-                        }
+                    .padding(
+                        top = 50.dp,
+                        start = 40.dp
                     )
+            )
+            Row(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+                horizontalArrangement = Arrangement.End,
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_filter),
+                    contentDescription = "filter",
+                    modifier = modifier.clickable {
+                        navController.navigate(AppNavigationItem.Filter.route)
+                    }
+                )
+            }
+            if (lst.isNotEmpty()) {
+                LazyColumn(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .background(Color(0xFFD9D9D9))
+                ) {
+                    items(lst) {
+                        JobCard(
+                            lst = it,
+                            modifier = modifier.clickable {
+                                println(it.id)
+                                RecruitmentViewModel.companyId = it.id
+                                navController.navigate(AppNavigationItem.Detail.route)
+                            }
+                        )
+                    }
                 }
             }
         }
+        Image(
+            painter = painterResource(id = R.drawable.ic_chat),
+            contentDescription = "chat",
+            modifier = modifier.align(Alignment.BottomEnd).clickable {
+                navController.navigate(AppNavigationItem.Gpt.route)
+            }
+        )
     }
 }
 

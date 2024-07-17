@@ -4,10 +4,11 @@ import no.gu.no9.data.request.GptRequest
 import no.gu.no9.data.response.GptResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 
 interface GptApi {
 
-    @GET("/gpt")
+    @POST("/gpt")
     suspend fun fetchGpt(
         @Body gptRequest: GptRequest
     ): GptResponse

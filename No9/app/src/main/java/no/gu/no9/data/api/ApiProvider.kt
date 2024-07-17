@@ -10,7 +10,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 object ApiProvider {
-    private var BASE_URL = "https://bc64-106-101-2-118.ngrok-free.app"
+    private var BASE_URL = "https://af01-106-101-11-34.ngrok-free.app"
 
     private lateinit var sharedPreferences: SharedPreferences
 
